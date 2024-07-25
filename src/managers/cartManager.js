@@ -22,7 +22,7 @@ class CartManager{
         this.carts.push (newCart);
 
         try{
-            await fs.promises.writeFile(this.filePath, JSON.stringify(this.carts))
+            await fs.promises.writeFile(this.path, JSON.stringify(this.carts))
             console.log("Carrito guardado");
             return newCart;
 
@@ -33,7 +33,7 @@ class CartManager{
 
     async getCarts() {
         try {
-            const data = await fs.promises.readFile (this.filePath, "utf8");
+            const data = await fs.promises.readFile (this.path, "utf8");
             this.carts = JSON.parse (data);
             return this.carts;
         } catch (error) {
@@ -78,7 +78,7 @@ class CartManager{
 
             };
 
-            await fs.promises.writeFile(this.filePath, JSON.stringify(this.carts));
+            await fs.promises.writeFile(this.path, JSON.stringify(this.carts));
             return cart;
         }catch (error){
            return("Error al agregar el producto al carrito", error);
@@ -104,7 +104,7 @@ class CartManager{
     }else{
         cart.products.splice(productIndex, 1);
 
-    await fs.promises.writeFile(this.filePath, JSON.stringify(this.carts));
+    await fs.promises.writeFile(this.path, JSON.stringify(this.carts));
     return cart;
     }
 

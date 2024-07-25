@@ -1,29 +1,11 @@
 [
   {
-    "id": 2,
-    "title": "durazno",
-    "description": "fruta",
-    "price": 3500,
-    "thumbnail": "imagen no disponible",
-    "code": "df1",
-    "stock": 10
-  },
-  {
-    "id": 3,
+    "id": 1,
     "title": "sandia",
     "description": "fruta",
-    "price": 3500,
+    "price": 2000,
     "thumbnail": "imagen no disponible",
-    "code": "sf1",
-    "stock": 10
-  },
-  {
-    "id": 4,
-    "title": "melon",
-    "description": "fruta",
-    "price": 3500,
-    "thumbnail": "imagen no disponible",
-    "code": "mf1",
+    "code": "none",
     "stock": 10
   }
 ]
