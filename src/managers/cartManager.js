@@ -1,4 +1,4 @@
-import fs from "fs/promises";
+import fs from "fs";
 
 import ProductManager from "./productManager.js"
 const productManager = new ProductManager ();
@@ -7,7 +7,7 @@ const productManager = new ProductManager ();
 
 class CartManager{
     constructor (){
-        this.filepath = "carts.json";
+        this.filePath = "./src/data/carts.json";
         this.carts = [];
 
     };
