@@ -8,8 +8,8 @@ import CartManager from './managers/cartManager.js';
 const app = express ();
 const PORT= 8080;
 
-const productManager =  new ProductManager ("./products.json");
-const cartManager = new CartManager ("./carts.json");
+const productManager =  new ProductManager ();
+const cartManager = new CartManager ();
 
 app.use(express.json ());
 

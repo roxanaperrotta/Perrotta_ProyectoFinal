@@ -7,7 +7,7 @@ const productManager = new ProductManager ();
 
 class CartManager{
     constructor (){
-        this.filePath = "./src/data/carts.json";
+        this.path = "carts.json";
         this.carts = [];
 
     };
