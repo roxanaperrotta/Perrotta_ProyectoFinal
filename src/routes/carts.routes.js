@@ -2,14 +2,30 @@ import express from "express";
 import CartManager from "../managers/cartManager.js";
 
 
-const cartManager = new CartManager;
+const cartManager = new CartManager("../carts.json");
 
 const router = express.Router();
 
-router.get("/", (req, res)=>{
+router.post("/", async (req, res) => {
+    try {
+        const newCart = await cartManager.addCart();
+        res.json(newCart);
+    } catch (error) {
+        res.status(500).send("Error del servidor, acción denegada");
+    }
+});
 
-    res.json(cartManager.carts);
-})
+
+router.get("/:cid", async (req, res) => {
+    let cartId = parseInt(req.params.cid);
+
+    try {
+        const cart = await cartManager.getCartById(cartId);
+        res.json(cart.products);
+    } catch (error) {
+        res.status(500).send("error, no se pudo obtener el producto del carrito");
+    }
+});
 
 
 router.post("/cart", async (req, res)=>{
@@ -24,27 +40,21 @@ router.post("/cart", async (req, res)=>{
     }
  });
 
-router.get("/cart/:cid", async (req, res)=>{
+
+
+ router.post("/:cid/product/:pid", async (req, res) => {
+    let cartId = parseInt(req.params.cid);
+    let productId = req.params.pid;
+    let quantity = req.body.quantity || 1;
+
     try {
-        const id = parseInt (req.params.cid);
-        const cart = await cartManager.getCartById(id);
-        res.json(cart);
-
-
+        const cartUpdated = await cartManager.addProductsCart(cartId, productId, quantity);
+        res.json(cartUpdated.products);
     } catch (error) {
-        res.status(500).json({error:error.message});
+        res.status(500).send("error al agregar producto al carrito");
     }
+});
 
-    router.post("/cart/:cid/product/:pid", async(req, res)=>{
-    try{
-    const cartId=parseInt(req.params.cid);
-    const productId=parseInt(req.params.pid);
-    const cart = await cartManager.addProduct(cartId, productId);
-    res.json(cart)
-    }catch(error){
-     return"error"
-     };
-    });
 
 router.delete("/cart/:cid/product/:pid", async(req, res)=>{
     try {
@@ -58,7 +68,6 @@ router.delete("/cart/:cid/product/:pid", async(req, res)=>{
     };
 });
 
-}
-)
+
 
 export default router 

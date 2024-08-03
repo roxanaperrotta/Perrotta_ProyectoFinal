@@ -4,25 +4,32 @@ import ProductManager from "../managers/productManager.js";
 
 const router = express.Router();
 
-const productManager = new ProductManager;
+const productManager = new ProductManager();
 
 router.get("/", async (req, res)=>{
+    
+    try {
+          const data=  await productManager.getProducts() 
 
-    const data=  await productManager.getProducts() 
+          const limite = parseInt(req.query.limit);
 
-    const limite = parseInt(req.query.limit);
+          const products = limite ? data.slice(0,limite) : data
 
-    const products = limite ? data.slice(0,limite) : data
+          res.status(200).json({message:"success", products});    
 
-      res.json(products);       
+    }catch (error) {
+    
+          res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    };
 
-})
+});
 
 router.get('/:pid',  async (req, res)=>{
 
     const productId = parseInt(req.params.pid);
     const product = await productManager.getProductById(productId)
     res.json(product);
+    
     if (!product) {
         return res.status(404).json({ error: "Producto no encontrado" });
       }
