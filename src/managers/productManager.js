@@ -28,8 +28,9 @@ class ProductManager{
         }
     }
 
-     async addProduct(title, description, price, code, thumbnail="imagen no disponible",  stock=10){
-
+     async addProduct (product){
+    
+            const {title, description, code, price, thumbnail="imagen no disponible",  stock=10} = product
    
 
     // Validación de inputs

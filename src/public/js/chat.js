@@ -17,22 +17,22 @@ let user;
 
 
 
-chatBox.addEventListener ('keyup', (event) =>{
+chatBox.addEventListener ('keyup', async (event) =>{
     if (event.key === "Enter") {
        if (chatBox.value.trim().length >0){
-        socket.emit ("message", {user:user, message:chatBox.value}) ;
+        await socket.emit ("message", {user:user, message:chatBox.value}) ;
         chatBox.value='';
     }
 }});
 
-socket.on ('messagesLogs', data =>{
-    const log = document.getElementById('messagesLogs');
+socket.on ('messagesLogs', async (data) =>{
+    const log =  document.getElementById('messagesLogs');
     
     let messages = '';
 
-    data.forEach (message =>{
+   await data.forEach (message =>{
         messages = messages + `${message.user} dice ${message.message} <br>`  
     });
 
-    log.innerHTML = messages;
+     log.innerHTML = messages;
 })

@@ -7,7 +7,7 @@ socket.on ('saludito', (data)=>{
 });
 
 
-socket.on("products", products => {
+socket.on("products", products=> {
     console.log('Received products:', products);
     if (Array.isArray(products)) {
         const productsContainer = document.getElementById("table");
@@ -63,7 +63,7 @@ socket.on("products", products => {
  
      const pId = document.querySelector("#id").value
      console.log(pId)
-     socket.emit("delete-product" ,pId )
+     socket.emit("delete-product", pId )
      event.target.reset();
  
  })

@@ -32,7 +32,6 @@ app.set('view engine', 'handlebars');
 app.set('views', './src/views');
 
 app.use ('/', viewsRouter);
-app.use ('/realtimeproducts', viewsRouter)
 app.use ('/chat', viewsRouter)
 
 
@@ -44,7 +43,7 @@ const httpServer = app.listen(PORT, ()=>{
 
 const io = new Server(httpServer);
 
-    io.on ('connection', (socket)=>{
+    io.on ('connection', async (socket)=>{
 
     console.log('cliente conectado');
     socket.on ('mensaje', (data)=>{
@@ -52,20 +51,19 @@ const io = new Server(httpServer);
     });
    
     socket.emit ("saludito", "hola cliente, como estas?");
-
-    try {
-    const products = productManager.getProducts();
+   // socket.emit ('products', await productManager.getProducts());
+   try {
+    const products = await productManager.getProducts();
     socket.emit("products", products);
-    console.log(products)
+   // console.log(products)
 
     } catch (error) {
     socket.emit('response', { status: 'error', message: error.message });
     }
 
-    });
+    
 
-
-    io.on("new-Product", (newProduct) => {
+    socket.on("new-Product", async (newProduct) => {
     
         try {
 
@@ -73,7 +71,7 @@ const io = new Server(httpServer);
                 if (typeof newProduct.price !== 'number') {
                 console.error('Price must be a number');
                 // error
-                }
+        }
 
                // validar stock
                 if (typeof newProduct.stock !== 'number') {
@@ -91,16 +89,27 @@ const io = new Server(httpServer);
                 thumbnail: newProduct.thumbnail,
 
         }
-        
 
-        const pushProduct =    productManager.addProduct(productoNuevo);
-        const listaActualizada =   productManager.getProducts();
-        io.emit("products", listaActualizada);
-        io.emit("response", { status: 'success' , message: pushProduct});
+        const pushProduct =  await productManager.addProduct(productoNuevo);
+        const listaActualizada =   await productManager.getProducts();
+        socket.emit("products", listaActualizada);
+        socket.emit("response", { status: 'success' , message: pushProduct});
 
     } catch (error) {
-        io.emit('response', { status: 'error', message: error.message });
+        socket.emit('response', { status: 'error', message: error.message });
     }
+
+    socket.on("delete-product",  async (id) => {
+        try {
+            const pid = parseInt(id);
+            const deleteProduct =  await productManager.deleteProduct(pid)
+            const listaActualizada = await productManager.getProducts()
+            socket.emit("products", listaActualizada)
+            socket.emit('response', { status: 'success' , message: "producto eliminado correctamente"});
+        } catch (error) {
+            socket.emit('response', { status: 'error', message: error.message });
+        }
+    } )
 })
 
 // socket para chat
@@ -115,10 +124,10 @@ const io = new Server(httpServer);
        
       
         messages.push(data);
-        io.emit ('messagesLogs', messages)  ;
+        socket.emit ('messagesLogs', messages)  ;
 
     });
 
 })
-
+    })
 })
