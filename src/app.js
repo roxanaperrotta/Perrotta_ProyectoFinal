@@ -123,11 +123,13 @@ const io = new Server(httpServer);
     socket.on('message', (data) => {
        
       
-        messages.push(data);
-        socket.emit ('messagesLogs', messages)  ;
+     messages.push(data);
+     socket.emit ('messageLogs', messages)  ;
 
     });
 
 })
+
+
     })
 })
