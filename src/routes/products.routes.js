@@ -4,7 +4,7 @@ import ProductManager from "../managers/productManager.js";
 
 const router = express.Router();
 
-const productManager = new ProductManager();
+const productManager = new ProductManager('./products.json');
 
 router.get("/", async (req, res)=>{
     

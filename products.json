@@ -3,9 +3,27 @@
     "id": 1,
     "title": "sandia",
     "description": "fruta",
-    "price": 2000,
+    "price": 5500,
     "thumbnail": "imagen no disponible",
-    "code": "none",
+    "code": "sf1",
+    "stock": 10
+  },
+  {
+    "id": 2,
+    "title": "pera",
+    "description": "fruta",
+    "price": 5500,
+    "thumbnail": "imagen no disponible",
+    "code": "pf1",
+    "stock": 10
+  },
+  {
+    "id": 3,
+    "title": "kiwi",
+    "description": "fruta",
+    "price": 4500,
+    "thumbnail": "imagen no disponible",
+    "code": "kf1",
     "stock": 10
   }
 ]
