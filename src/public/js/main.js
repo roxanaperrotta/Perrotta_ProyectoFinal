@@ -33,12 +33,24 @@ socket.on("products", products=> {
                 <td>${product.price}</td>
                 <td>${product.stock}</td>
                 <td>${product.thumbnail}</td>
+                <button>Eliminar</button>
             </tr>`;
+
+            productsContainer.querySelector("button").addEventListener("click", ()=>{
+                eliminarProducto(product.id);
+            })
         });
     } else {
         console.error('Expected an array of products but received:', products);
     }
+
+ 
 });
+
+ const eliminarProducto= (id)=>{
+    socket.emit("delete-product", id);
+ }
+  
 
  document.getElementById("addNewProduct").addEventListener("submit", (event) => {
      event.preventDefault()
@@ -58,7 +70,7 @@ socket.on("products", products=> {
  });
  
  
- document.getElementById("deleteProduct").addEventListener("submit", (event) => {
+ /*document.getElementById("deleteProduct").addEventListener("submit", (event) => {
      event.preventDefault()
  
      const pId = document.querySelector("#id").value
@@ -66,7 +78,7 @@ socket.on("products", products=> {
      socket.emit("delete-product", pId )
      event.target.reset();
  
- })
+ })*/
  
  socket.on('response', (response) => {
      if(response.status === 'success') {
