@@ -1,10 +1,12 @@
 import express from "express";
-import CartManager from "../managers/cartManager.js";
+import CartManager from "../dao/db/cart.manager.db.js";
 
 
-const cartManager = new CartManager("../carts.json");
+const cartManager = new CartManager();
 
 const router = express.Router();
+
+//Crear carrito
 
 router.post("/", async (req, res) => {
     try {
@@ -15,9 +17,21 @@ router.post("/", async (req, res) => {
     }
 });
 
+//Listar carritos
+
+router.get("/", async (req, res)=>{
+    try {
+       const carts= await cartManager.getCarts();
+       res.json(carts);
+
+    } catch (error) {
+         res.status(500).send("Error del servidor, al obtener carritos");
+    }
+})
+//Obtener carrito por id
 
 router.get("/:cid", async (req, res) => {
-    let cartId = parseInt(req.params.cid);
+    let cartId = req.params.cid;
 
     try {
         const cart = await cartManager.getCartById(cartId);
@@ -28,7 +42,9 @@ router.get("/:cid", async (req, res) => {
 });
 
 
-router.post("/cart", async (req, res)=>{
+//Actualizar carrito
+
+router.post("/", async (req, res)=>{
     try {
         const cart=req.body
         const newCart = await cartManager.addCart(cart)
@@ -41,14 +57,15 @@ router.post("/cart", async (req, res)=>{
  });
 
 
+//Agregar producto al carrito
 
  router.post("/:cid/product/:pid", async (req, res) => {
-    let cartId = parseInt(req.params.cid);
+    let cartId = req.params.cid;
     let productId = req.params.pid;
     let quantity = req.body.quantity || 1;
 
     try {
-        const cartUpdated = await cartManager.addProductsCart(cartId, productId, quantity);
+        const cartUpdated = await cartManager.addProductCart(cartId, productId, quantity);
         res.json(cartUpdated.products);
     } catch (error) {
         res.status(500).send("error al agregar producto al carrito");
@@ -56,10 +73,13 @@ router.post("/cart", async (req, res)=>{
 });
 
 
-router.delete("/cart/:cid/product/:pid", async(req, res)=>{
+
+//Eliminar producto del carrito
+
+router.delete("/:cid/product/:pid", async(req, res)=>{
     try {
-        const cartId = parseInt(req.params.cid);
-        const productId=parseInt(req.params.pid);
+        const cartId = req.params.cid;
+        const productId=req.params.pid;
         const cart= await cartManager.deleteProduct(cartId, productId);
         res.json(cart);
     } catch (error) {

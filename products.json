@@ -52,5 +52,41 @@
     "thumbnail": "no disponible",
     "code": "rv1",
     "stock": 32
+  },
+  {
+    "id": 11,
+    "title": "naranja",
+    "description": "fruta",
+    "price": 3000,
+    "thumbnail": "no disponible",
+    "code": "nf1",
+    "stock": 10
+  },
+  {
+    "id": 12,
+    "title": "lima",
+    "description": "fruta",
+    "price": 4000,
+    "thumbnail": "no disponible",
+    "code": "lf2",
+    "stock": 40
+  },
+  {
+    "id": 13,
+    "title": "acelga",
+    "description": "vegetal",
+    "price": 4000,
+    "thumbnail": "no disponible",
+    "code": "av1",
+    "stock": 40
+  },
+  {
+    "id": 14,
+    "title": "lechuga",
+    "description": "vegetal",
+    "price": 4000,
+    "thumbnail": "no disponible",
+    "code": "lv1",
+    "stock": 40
   }
 ]

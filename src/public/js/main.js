@@ -8,7 +8,6 @@ socket.on ('saludito', (data)=>{
 
 
 socket.on("products", products=> {
-    console.log('Received products:', products);
     if (Array.isArray(products)) {
         const productsContainer = document.getElementById("table");
         productsContainer.innerHTML = `
@@ -26,7 +25,7 @@ socket.on("products", products=> {
         products.forEach((product) => {
             productsContainer.innerHTML += `
             <tr>
-                <td>${product.id}</td>
+                <td>${product._id}</td>
                 <td>${product.title}</td>
                 <td>${product.description}</td>
                 <td>${product.code}</td>
@@ -37,7 +36,7 @@ socket.on("products", products=> {
             </tr>`;
 
             productsContainer.querySelector("button").addEventListener("click", ()=>{
-                eliminarProducto(product.id);
+                eliminarProducto(product._id);
             })
         });
     } else {

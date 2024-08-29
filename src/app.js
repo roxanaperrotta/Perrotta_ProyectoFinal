@@ -1,12 +1,15 @@
 import express from 'express';
 import productsRouter from './routes/products.routes.js';
 import cartRouter from './routes/carts.routes.js';
-import ProductManager from './managers/productManager.js';
-import CartManager from './managers/cartManager.js';
+import ProductManager from './dao/db/product.manager.db.js';
+import CartManager from './dao/db/cart.manager.db.js';
+import multer from 'multer';
 import { upload } from './uploader.js';
 import expresshandlebars from 'express-handlebars';
 import viewsRouter from './routes/views.routes.js';
 import { Server } from 'socket.io';
+import "./database.js";
+import imagenRouter from './routes/imagen.routes.js';
 
 //iniciamos el servidor
 const app = express ();
@@ -21,7 +24,6 @@ app.use(express.json ());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./src/public"));
 
-
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 
@@ -33,6 +35,7 @@ app.set('views', './src/views');
 
 app.use ('/', viewsRouter);
 app.use ('/chat', viewsRouter)
+app.use('/', imagenRouter)
 
 
 //configuración de socket
@@ -87,6 +90,8 @@ const io = new Server(httpServer);
                 price: newProduct.price,
                 stock: newProduct.stock,
                 thumbnail: newProduct.thumbnail,
+                category:newProduct.category,
+                staus:newProduct.status
 
         }
 
@@ -101,7 +106,7 @@ const io = new Server(httpServer);
 
     socket.on("delete-product",  async (id) => {
         try {
-            const pid = parseInt(id);
+            const pid = (id);
             const deleteProduct =  await productManager.deleteProduct(pid)
             const listaActualizada = await productManager.getProducts()
             socket.emit("products", listaActualizada)
