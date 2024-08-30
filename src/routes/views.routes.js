@@ -13,20 +13,15 @@ router.get ('/products', async (req, res)=>{
     const listadoProductos= await productModel.paginate({}, {limit, page});
    // console.log(listadoProductos);
 
-/*
-
-    const nuevoArray = products.map (product =>{
-        return{
-            _id:product._id,
-            title: product.title,
-            description: product.description,
-            code: product.code,
-            price:product.price,
-            stock:product.stock,
-            thumbnail:product.thumbnail
+    const ordenado = await productModel.aggregate([
+    {
+        $sort: {
+            price: 1 // Orden ascendente
         }
-    })
-*/
+    }
+]);
+
+console.log(ordenado);
 
 const productsResultadoFinal = listadoProductos.docs.map( prod =>{
    const {_id, ...rest} = prod.toObject();
@@ -43,19 +38,8 @@ const productsResultadoFinal = listadoProductos.docs.map( prod =>{
    })
    //res.render('home', {products:nuevoArray});
 
-   const ordenado = await productModel.aggregate([
-      {
-         
-       //Ordenamos: 
-          $sort: {
-                 total: 1
-    //             //1: ascendente
-    //             //-1: descendente
-           }
-        }
-    ])
-     ordenado;
-});
+   
+})
 
 
 
