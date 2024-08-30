@@ -25,10 +25,10 @@ const cartSchema = new mongoose.Schema({
     
 })
 
-cartSchema.pre('findOne', function(next){
+/*cartSchema.pre('findOne', function(next){
     this.populate('carts');
     next;
-});
+});*/
 
 const CartModel = mongoose.model ("carts", cartSchema);
 

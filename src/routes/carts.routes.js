@@ -35,6 +35,7 @@ router.get("/:cid", async (req, res) => {
 
     try {
         const cart = await cartManager.getCartById(cartId);
+        console.log(cart);
         res.json(cart.products);
     } catch (error) {
         res.status(500).send("error, no se pudo obtener el producto del carrito");

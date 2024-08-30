@@ -1,7 +1,7 @@
 
 import {Router} from "express";
 import ProductManager from "../dao/db/product.manager.db.js";
-import OrdenesModel from "../dao/models/ordenes.model.js";
+
 
 const router = Router();
 

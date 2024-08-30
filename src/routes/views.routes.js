@@ -23,7 +23,7 @@ router.get ('/products', async (req, res)=>{
 
 console.log(ordenado);
 
-const productsResultadoFinal = listadoProductos.docs.map( prod =>{
+const productsResultadoFinal = await listadoProductos.docs.map( prod =>{
    const {_id, ...rest} = prod.toObject();
    return rest;
   });
@@ -42,12 +42,14 @@ const productsResultadoFinal = listadoProductos.docs.map( prod =>{
 })
 
 
-
 router.get ('/realtimeproducts', async (req, res)=>{
    // const products = await productManager.getProducts();
     res.render('realTimeProducts')
 });
 
+router.get('/cart', async(req, res)=>{
+    res.render('cart')
+})
 router.get ('/chat', async (req, res)=>{
     res.render('chat' )
 });

@@ -44,10 +44,10 @@ const productSchema = new mongoose.Schema({
 }
 })
 
-productSchema.pre('findOne', function(next){
+/*productSchema.pre('findOne', function(next){
     this.populate('products');
     next;
-});
+});*/
 
 productSchema.plugin(mongoosePaginate);
 

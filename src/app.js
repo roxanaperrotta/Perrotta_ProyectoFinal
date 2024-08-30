@@ -3,14 +3,11 @@ import productsRouter from './routes/products.routes.js';
 import cartRouter from './routes/carts.routes.js';
 import ProductManager from './dao/db/product.manager.db.js';
 import CartManager from './dao/db/cart.manager.db.js';
-import multer from 'multer';
-import { upload } from './uploader.js';
 import expresshandlebars from 'express-handlebars';
 import viewsRouter from './routes/views.routes.js';
 import { Server } from 'socket.io';
 import "./database.js";
-import imagenRouter from './routes/imagen.routes.js';
-import OrdenesModel from './dao/models/ordenes.model.js';
+
 
 
 //iniciamos el servidor
@@ -36,32 +33,11 @@ app.set('view engine', 'handlebars');
 app.set('views', './src/views');
 
 app.use ('/', viewsRouter);
-app.use ('/chat', viewsRouter)
-app.use('/', imagenRouter)
+app.use ('/chat', viewsRouter);
+app.use("/cart", viewsRouter);
 
-app.get('/pizzas', async(req, res)=>{
-    let page= req.query.page || 1
-    let limit = 2
-
-    const pizzaListado = await OrdenesModel.paginate({}, {limit, page});
-    
-   const pizzaResultadoFinal = pizzaListado.docs.map( pizza =>{
-     const {_id, ...rest} = pizza.toObject();
-      return rest;
-   });
-    res.render("pizzas", {
-        pizzas:pizzaResultadoFinal,
-        hasPrevPage:pizzaListado.hasPrevPage,
-        hasNextPage:pizzaListado.hasNextPage,
-        prevPage:pizzaListado.prevPage,
-        nextPage:pizzaListado.nextPage,
-        currentPage:pizzaListado.page,
-        totalPages:pizzaListado.totalPages
-    })
-})
 
 //configuración de socket
-
 
 const httpServer = app.listen(PORT, ()=>{
     console.log(`Servidor con express en el puerto ${PORT}`)
