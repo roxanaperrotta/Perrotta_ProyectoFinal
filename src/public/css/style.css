@@ -6,3 +6,16 @@ text-align: center;
 body{
     background-color: cornsilk;
 }
+
+.card{
+    background-color: rgb(232, 223, 222);
+    text-align: center;
+
+}
+
+a{
+    color:olive
+}
+.btn{
+    color: olive;
+}

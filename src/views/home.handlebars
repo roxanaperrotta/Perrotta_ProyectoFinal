@@ -1,25 +1,29 @@
 <h1>Productos</h1>
 
-<table>
-    <tr>
-        <th>Id:</th>
-        <th>Título:</th>
-        <th>Descripción:</th>
-        <th>Código:</th>
-        <th>Precio:</th>
-        <th>Stock:</th>
-        <th>Imágenes:</th>
-    </tr>
+{{#each products}}
+<div class="card">
+    <h3>{{this.title}}</h3>
+    <p>{{this.description}}</p>
+    <p>{{this.price}}</p>
+    <a class="btn" href="/products/{{this._id}}/addtoCart">Agregar al carrito</a>
+    
+</div>
 
-    {{#each products}}
-        <tr>
-            <td>{{_id}}</td>
-            <td>{{title}}</td>
-            <td>{{description}}</td>
-            <td>{{code}}</td>
-            <td>${{price}}</td>
-            <td>{{stock}}</td>
-            <td>{{thumbnail}}</td>
-        </tr>
-    {{/each}}
-</table>
+{{/each}}
+
+{{#if hasPrevPage}}
+
+    <a href="/products?page={{prevPage}}"> Anterior </a>
+
+{{/if}}
+
+{{#if hasNextPage}}
+
+    <a href="/products?page={{nextPage}}"> Siguiente </a>
+
+{{/if}}
+
+<p> {{currentPage}} de {{totalPages}} </p>
+
+
+

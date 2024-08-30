@@ -1,6 +1,7 @@
 
 import {Router} from "express";
 import ProductManager from "../dao/db/product.manager.db.js";
+import OrdenesModel from "../dao/models/ordenes.model.js";
 
 const router = Router();
 
@@ -38,5 +39,6 @@ router.post('/', async (req, res)=>{
         res.status(500).send("Error interno del servidor");
     }
 })
+
 
 export default router;

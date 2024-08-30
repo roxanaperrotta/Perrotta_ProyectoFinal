@@ -10,6 +10,8 @@ import viewsRouter from './routes/views.routes.js';
 import { Server } from 'socket.io';
 import "./database.js";
 import imagenRouter from './routes/imagen.routes.js';
+import OrdenesModel from './dao/models/ordenes.model.js';
+
 
 //iniciamos el servidor
 const app = express ();
@@ -37,6 +39,26 @@ app.use ('/', viewsRouter);
 app.use ('/chat', viewsRouter)
 app.use('/', imagenRouter)
 
+app.get('/pizzas', async(req, res)=>{
+    let page= req.query.page || 1
+    let limit = 2
+
+    const pizzaListado = await OrdenesModel.paginate({}, {limit, page});
+    
+   const pizzaResultadoFinal = pizzaListado.docs.map( pizza =>{
+     const {_id, ...rest} = pizza.toObject();
+      return rest;
+   });
+    res.render("pizzas", {
+        pizzas:pizzaResultadoFinal,
+        hasPrevPage:pizzaListado.hasPrevPage,
+        hasNextPage:pizzaListado.hasNextPage,
+        prevPage:pizzaListado.prevPage,
+        nextPage:pizzaListado.nextPage,
+        currentPage:pizzaListado.page,
+        totalPages:pizzaListado.totalPages
+    })
+})
 
 //configuración de socket
 
